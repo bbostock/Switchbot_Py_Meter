@@ -17,7 +17,7 @@ room1/meter
 ```
 Payload example:
 ```
-{"time":"2019-12-26 08:20:06","temperature":20.1,"humidity":54}
+hall/meter: {"time":"2019-12-27 11:44:36","temperature":20.2,"humidity":57,"battery":100}
 ```
 Run command is: 
 Sudo Python3 meters.py
