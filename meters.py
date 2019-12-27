@@ -68,8 +68,8 @@ class ScanProcessor():
                     #Model T (WOSensorTH) example Service Data: 000d54006400962c
                     if desc == '16b Service Data':
                         if value.startswith('000d'):
-                            model = binascii.a2b_hex(value[4:6])
-                            mode = binascii.a2b_hex(value[6:8])
+                            byte2 = int(value[8:10],16)
+                            battery = (byte2 & 127)
                             byte3 = int(value[10:12],16)
                             byte4 = int(value[12:14],16)
                             byte5 = int(value[14:16],16)
@@ -77,7 +77,7 @@ class ScanProcessor():
                             humidity = byte5
                             if debug_level == 1:
                                 print('\nPublishing...'+room)
-                            self._publish(room, tempc, humidity)
+                            self._publish(room, tempc, humidity, battery)
      
                         else:
                             if debug_level == 1:
@@ -125,12 +125,12 @@ class ScanProcessor():
         self.mqtt_client.connect(MQTT_HOST, MQTT_PORT, MQTT_TIMEOUT)
         self.mqtt_client.loop_start()
 
-    def _publish(self, room, tempc, humidity):
+    def _publish(self, room, tempc, humidity, battery):
         try:
             now = datetime.datetime.now()
             topic = '{}/{}'.format(room.lower(), 'meter')
             timeNow = now.strftime("%Y-%m-%d %H:%M:%S")
-            msgdata = '{"time":\"' + timeNow + '\","temperature":' + str(tempc) + ',"humidity":' + str(humidity) + '}'
+            msgdata = '{"time":\"' + timeNow + '\","temperature":' + str(tempc) + ',"humidity":' + str(humidity) + ',"battery":' + str(battery) +'}'
             MQTT_TOPIC_STACK.add(topic)
             MQTT_PAYLOAD_STACK.add(msgdata)
             if self.connected:
@@ -139,7 +139,7 @@ class ScanProcessor():
                     p = MQTT_PAYLOAD_STACK.pop()
                     if len(t) > 0:
                         if debug_level == 1:
-                            print('STACK {} {} {} {} '.format(str(len(MQTT_TOPIC_STACK)),timeNow,t,p))
+                            print('STACK {} {} {} {}'.format(str(len(MQTT_TOPIC_STACK)),timeNow,t,p))
                         self.mqtt_client.publish(t, p, qos=0, retain=True)
                         print('Sent data to topic %s: %s ' % (topic, msgdata))
         except:
