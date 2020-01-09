@@ -23,20 +23,20 @@ room1/meter: {"time":"2019-12-27 11:44:36","temperature":20.2,"humidity":57,"bat
 Home Assistant configuration.yaml example
 ```
 - platform: mqtt
-    unique_id: "bathroom_meter"
-    name: "Bathroom Meter"
-    state_topic: "bathroom/meter"
+    unique_id: "room1_meter"
+    name: "Room 1 Meter"
+    state_topic: "room1/meter"
     value_template: "{{ value_json.temperature }}"
     unit_of_measurement: "°C"
   - platform: mqtt
-    unique_id: "bathroom_meter_humidity"
-    name: "Bathroom Meter Humidity"
-    state_topic: "bathroom/meter"
+    unique_id: "room1_meter_humidity"
+    name: "Room 1 Meter Humidity"
+    state_topic: "room1/meter"
     value_template: "{{ value_json.humidity }}"
   - platform: mqtt
-    unique_id: "bathroom_meter_time"
-    name: "Bathroom Meter Last Update"
-    state_topic: "bathroom/meter"
+    unique_id: "room1_meter_time"
+    name: "Room 1 Meter Last Update"
+    state_topic: "room1/meter"
     value_template: "{{ value_json.time }}"
 ```
 
