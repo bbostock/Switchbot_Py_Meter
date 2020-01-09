@@ -38,6 +38,12 @@ Home Assistant configuration.yaml example
     name: "Room 1 Meter Last Update"
     state_topic: "room1/meter"
     value_template: "{{ value_json.time }}"
+  - platform: mqtt
+    unique_id: "room1_meter_battery"
+    name: "Room 1 Meter Battery"
+    state_topic: "room1/meter"
+    value_template: "{{ value_json.battery }}"
+
 ```
 
 Run command is: 
