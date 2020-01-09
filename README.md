@@ -19,6 +19,27 @@ Payload example:
 ```
 room1/meter: {"time":"2019-12-27 11:44:36","temperature":20.2,"humidity":57,"battery":100}
 ```
+
+Home Assistant configuration.yaml example
+```
+- platform: mqtt
+    unique_id: "bathroom_meter"
+    name: "Bathroom Meter"
+    state_topic: "bathroom/meter"
+    value_template: "{{ value_json.temperature }}"
+    unit_of_measurement: "°C"
+  - platform: mqtt
+    unique_id: "bathroom_meter_humidity"
+    name: "Bathroom Meter Humidity"
+    state_topic: "bathroom/meter"
+    value_template: "{{ value_json.humidity }}"
+  - platform: mqtt
+    unique_id: "bathroom_meter_time"
+    name: "Bathroom Meter Last Update"
+    state_topic: "bathroom/meter"
+    value_template: "{{ value_json.time }}"
+```
+
 Run command is: 
 Sudo Python3 meters.py
 
